@@ -1,4 +1,4 @@
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 const PATHS = require('../paths');
 
 module.exports = ({ production = false, browser = false } = {}) => {
@@ -32,7 +32,7 @@ module.exports = ({ production = false, browser = false } = {}) => {
       }
     },
     {
-      loader: "sass-loader"
+      loader: 'sass-loader'
     },
     {
       loader: 'sass-resources-loader',
@@ -48,7 +48,7 @@ module.exports = ({ production = false, browser = false } = {}) => {
     if (extractCssToFile) {
       return ([
         {
-          loader: MiniCssExtractPlugin.loader
+          loader: ExtractCssChunks.loader
         },
         ...loaders
       ]);

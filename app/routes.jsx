@@ -1,4 +1,5 @@
 import React from 'react';
+import universal from 'react-universal-component';
 import {
   BLOG_SLUG,
   CATEGORY_SLUG,
@@ -6,36 +7,9 @@ import {
   SEARCH_SLUG
 } from './config/app';
 import { fetchWPData } from './fetch-data';
-import { Loading } from './components/Content/Loading';
 import App from './containers/App';
 
-function asyncComponent(getComponent) {
-  return class AsyncComponent extends React.Component {
-    static Component = null;
-    state = { Component: AsyncComponent.Component };
-
-    componentWillMount() {
-      if (!this.state.Component) {
-        getComponent().then(({ default: Component }) => {
-          AsyncComponent.Component = Component;
-          this.setState({ Component });
-        }).catch(err => console.error(err));
-      }
-    }
-
-    render() {
-      const { Component } = this.state;
-      if (Component) {
-        return <Component {...this.props} />;
-      }
-      return <Loading />;
-    }
-  };
-}
-
-const getComponent = (name) => {
-  return asyncComponent(() => import(/* webpackChunkName: "[request]" */ `./containers/${name}`));
-};
+const getComponent = name => universal(() => import(`./containers/${name}`));
 
 export default [{
   component: App,

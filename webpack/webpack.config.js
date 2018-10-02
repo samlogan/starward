@@ -21,6 +21,7 @@ module.exports = (env = {}) => {
   const node = { __dirname: false };
 
   const prodServerRender = {
+    name: 'server',
     mode: 'production',
     devtool: 'source-map',
     context: PATHS.app,
@@ -40,6 +41,7 @@ module.exports = (env = {}) => {
   };
 
   const prodBrowserRender = {
+    name: 'browser',
     mode: 'production',
     devtool: 'cheap-module-source-map',
     context: PATHS.app,
@@ -57,6 +59,7 @@ module.exports = (env = {}) => {
   };
 
   const devBrowserRender = {
+    name: 'browser',
     mode: 'development',
     devtool: 'eval',
     context: PATHS.app,
@@ -73,6 +76,7 @@ module.exports = (env = {}) => {
   };
 
   const devServerRender = {
+    name: 'server',
     mode: 'development',
     devtool: 'sourcemap',
     context: PATHS.app,

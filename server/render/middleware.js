@@ -1,11 +1,14 @@
-import axios from 'axios';
 import React from 'react';
+import fs from 'fs';
+import axios from 'axios';
 import { renderToString } from 'react-dom/server';
 import createMemoryHistory from 'history/createMemoryHistory';
 import { renderRoutes, matchRoutes } from 'react-router-config';
 import Helmet from 'react-helmet';
 import { Provider } from 'react-redux';
 import { StaticRouter } from 'react-router';
+import { flushChunkNames } from 'react-universal-component/server';
+import flushChunks from 'webpack-flush-chunks';
 import configureStore from '../../app/utils/configureStore';
 import * as types from '../../app/actions/types';
 import { baseURL } from '../../app/config/app';
@@ -21,6 +24,8 @@ axios.defaults.baseURL = baseURL;
  * We grab the state passed in from the server and the req object from Express/Koa
  * and pass it into the Router.run function.
  */
+
+const stats = JSON.parse(fs.readFileSync('./compiled/stats.json', 'utf8'));
 
 const render = async (req, res) => {
   try {
@@ -56,7 +61,16 @@ const render = async (req, res) => {
       return res.status(301).redirect(context.url);
     }
     const headAssets = Helmet.renderStatic();
-    const finalHTML = `<!DOCTYPE html>${pageRenderer({ initialState, componentHTML, headAssets })}`;
+    const chunks = flushChunks(stats, {
+      chunkNames: flushChunkNames()
+    });
+    const pageData = {
+      initialState,
+      componentHTML,
+      headAssets,
+      chunks
+    };
+    const finalHTML = `<!DOCTYPE html>${pageRenderer(pageData)}`;
     return res.status(200).send(finalHTML);
   } catch (error) {
     console.error('renderError', error);
