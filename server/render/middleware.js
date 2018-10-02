@@ -7,7 +7,7 @@ import { renderRoutes, matchRoutes } from 'react-router-config';
 import Helmet from 'react-helmet';
 import { Provider } from 'react-redux';
 import { StaticRouter } from 'react-router';
-import { flushChunkNames } from 'react-universal-component/server';
+import { clearChunks, flushChunkNames } from 'react-universal-component/server';
 import flushChunks from 'webpack-flush-chunks';
 import configureStore from '../../app/utils/configureStore';
 import * as types from '../../app/actions/types';
@@ -45,6 +45,7 @@ const render = async (req, res) => {
       type: types.REQUEST_SUCCESS,
       data
     });
+    clearChunks();
     const initialState = store.getState();
     const context = {};
     // eslint-disable-next-line

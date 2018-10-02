@@ -24,7 +24,7 @@ module.exports = ({ production = false, browser = false } = {}) => {
       new webpack.EnvironmentPlugin(['NODE_ENV']),
       new webpack.DefinePlugin(compileTimeConstantForMinification),
       new webpack.HotModuleReplacementPlugin(),
-      new webpack.NoEmitOnErrorsPlugin(),
+      new webpack.NoEmitOnErrorsPlugin()
     ];
   }
   if (production && !browser) {
