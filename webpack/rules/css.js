@@ -1,4 +1,6 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const postcssPresetEnv = require('postcss-preset-env');
+const postcssReporter = require('postcss-reporter');
 const PATHS = require('../paths');
 
 module.exports = ({ production = false, browser = false } = {}) => {
@@ -30,11 +32,18 @@ module.exports = ({ production = false, browser = false } = {}) => {
         minimize: true,
         importLoaders: 1
       }
-    },
-    {
-      loader: "sass-loader"
-    },
-    {
+    }, {
+      loader: 'postcss-loader',
+      options: {
+        ident: 'postcss',
+        plugins: [
+          postcssPresetEnv({ stage: 2, browsers: 'last 2 versions' }),
+          postcssReporter({ clearMessages: true })
+        ]
+      }
+    }, {
+      loader: 'sass-loader'
+    }, {
       loader: 'sass-resources-loader',
       options: {
         resources: [
