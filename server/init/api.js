@@ -327,6 +327,7 @@ export default(app) => {
             prePopulated,
             prePopulatedParam,
             choices
+            inputs
           }
         }
       }`, {id: req.query.id})

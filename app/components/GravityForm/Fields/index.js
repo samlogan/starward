@@ -1,6 +1,7 @@
 export Checkbox from './Checkbox';
 export Email from './Email';
 export Number from './Number';
+export Name from './Name';
 export Phone from './Phone';
 export Radio from './Radio';
 export Select from './Select';

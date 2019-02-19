@@ -23,8 +23,9 @@ export const RenderFields = (props) => {
           <FormComponent
             key={field.id}
             field={field}
+            formValues={formValues}
             value={formValues[field.id] ? formValues[field.id].value : null}
-            updateForm={(value, fieldData, valid) => updateForm(value, fieldData, valid)}
+            updateForm={updateForm}
             isValid={isValid}
             submitFailed={submitFailed}
             submitSuccess={submitSuccess}

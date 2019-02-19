@@ -21,16 +21,17 @@ export function getForm(id) {
   };
 }
 
-export function updateForm(value, id, valid, formId) {
-  if (Array.isArray(value)) {
-    value = value.map((val, index) => ({ id: `${id}_${index+1}`, value: val }));
+export function updateForm(value, id, valid, formId, isName) {
+  if (!isName && Array.isArray(value)) {
+    value = value.map((val, index) => ({ id: `${id}_${index + 1}`, value: val }));
   }
-  return ({ type: UPDATE_FORM, payload: {value, id, valid}, key: formId });
+  return ({ type: UPDATE_FORM, payload: { value, id, valid }, key: formId });
 }
 
 export function submitForm(id, fields) {
   return (dispatch) => {
     dispatch({ type: SUBMIT_FORM, key: id });
+    console.log('fields', fields);
     const gravityFormPostUrl = `${ROOT_API}/gravityforms?id=${id}`;
     axios.post(gravityFormPostUrl, fields)
     .then(({data}) => {
